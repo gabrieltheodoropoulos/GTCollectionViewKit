@@ -1,0 +1,203 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name GTCollectionViewKit
+import Foundation
+import Swift
+import UIKit
+public class GTCollectionViewCore {
+  public enum ElementKind {
+    case cell
+    case header
+    case footer
+    public static func == (a: GTCollectionViewKit.GTCollectionViewCore.ElementKind, b: GTCollectionViewKit.GTCollectionViewCore.ElementKind) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public class RegisterElements {
+    public struct ElementInfo<C> where C : UIKit.UIView {
+      public var classType: C.Type
+      public var nibName: Swift.String?
+      public var reuseIdentifier: Swift.String? {
+        get
+        }
+      public var loadFromNib: Swift.Bool
+      public var elementKind: GTCollectionViewKit.GTCollectionViewCore.ElementKind
+    }
+    public var cells: [GTCollectionViewKit.GTCollectionViewCore.RegisterElements.ElementInfo<UIKit.UICollectionViewCell>] {
+      get
+      }
+    public var headers: [GTCollectionViewKit.GTCollectionViewCore.RegisterElements.ElementInfo<UIKit.UIView>] {
+      get
+      }
+    public var footers: [GTCollectionViewKit.GTCollectionViewCore.RegisterElements.ElementInfo<UIKit.UIView>] {
+      get
+      }
+    public init()
+    public init<C>(_ customClass: C.Type, elementKind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, loadFromNib: Swift.Bool, customNibName: Swift.String?) where C : UIKit.UIView
+    public func registerClass<C>(_ customClass: C.Type, elementKind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, loadFromNib: Swift.Bool, customNibName: Swift.String?) where C : UIKit.UIView
+    @objc deinit
+  }
+  @objc deinit
+}
+extension GTCollectionViewCore {
+  public enum LayoutStyle {
+    case list
+    case grid
+    public static func == (a: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle, b: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public class LayoutInfo {
+    public var cellHeight: CoreGraphics.CGFloat
+    public var columnSpacing: CoreGraphics.CGFloat
+    public var rowSpacing: CoreGraphics.CGFloat
+    public var sectionInset: UIKit.UIEdgeInsets
+    public var makeSquare: Swift.Bool
+    public init(withCellHeight cellHeight: CoreGraphics.CGFloat, columnSpacing: CoreGraphics.CGFloat, rowSpacing: CoreGraphics.CGFloat, sectionInset: UIKit.UIEdgeInsets, makeSquare: Swift.Bool)
+    public init()
+    @objc deinit
+  }
+}
+extension GTCollectionViewCore {
+  public class LayoutRule {
+    public init(whenHorizontalSizeClassIs hSizeClass: UIKit.UIUserInterfaceSizeClass?, andVerticalSizeClassIs vSizeClass: UIKit.UIUserInterfaceSizeClass?, applyLayoutStyle layoutStyle: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle, withColumns columns: Swift.Int)
+    @objc deinit
+  }
+}
+@objc open class GTTitleSubtitleImageCell : UIKit.UICollectionViewCell {
+  @objc @IBOutlet weak public var title: UIKit.UILabel?
+  @objc @IBOutlet weak public var subtitle: UIKit.UILabel?
+  @objc @IBOutlet weak public var imageView: UIKit.UIImageView?
+  public var selectionColor: UIKit.UIColor?
+  public var animateSelection: Swift.Bool
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open var isSelected: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic open func touchesBegan(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @objc override dynamic open func touchesEnded(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @objc override dynamic open func touchesCancelled(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  public func deselect(withDuration duration: Foundation.TimeInterval = 0.4)
+  @objc deinit
+}
+public class GTCollectionViewPresets {
+  open class TitleSubtitleImageType {
+    public var title: Swift.String?
+    public var subtitle: Swift.String?
+    public var image: UIKit.UIImage?
+    public init()
+    public init(withTitle title: Swift.String, subtitle: Swift.String, image: UIKit.UIImage)
+    public init(withTitle title: Swift.String, image: UIKit.UIImage)
+    public init(withTitle title: Swift.String)
+    public class func collection(fromStringCollection stringCollection: [Swift.String]) -> [GTCollectionViewKit.GTCollectionViewPresets.TitleSubtitleImageType]
+    @objc deinit
+  }
+  @objc open class CollectionViewCell : UIKit.UICollectionViewCell {
+    @objc override dynamic public init(frame: CoreGraphics.CGRect)
+    @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+    @objc deinit
+  }
+  @objc open class ReusableView : UIKit.UICollectionReusableView {
+    @objc override dynamic public init(frame: CoreGraphics.CGRect)
+    @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+    @objc deinit
+  }
+  @objc deinit
+}
+public protocol GTCollectionViewApplicable {
+  func createGrid<T>(withColumns columns: Swift.Int, datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  func createList<T>(withDatasource datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  func createCollection<T>(withLayoutRules layoutRules: [GTCollectionViewKit.GTCollectionViewCore.LayoutRule], datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+}
+extension GTCollectionViewApplicable {
+  public func createGrid<T>(withColumns columns: Swift.Int, datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func createList<T>(withDatasource datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func createCollection<T>(withLayoutRules layoutRules: [GTCollectionViewKit.GTCollectionViewCore.LayoutRule], datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+}
+public class GTCollectionViewSection<DataType> {
+  public init()
+  public init(withItems items: [DataType])
+  @objc deinit
+}
+public class GTCollectionViewDatasource<DataType> {
+  public init()
+  public init(withSingleSectionItems items: [DataType])
+  public init(withMultipleSectionItems multiItems: [[DataType]])
+  public func item(at indexPath: Foundation.IndexPath) -> DataType?
+  @objc deinit
+}
+final public class GTCollectionView<T> : UIKit.UICollectionView, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDelegateFlowLayout where T : GTCollectionViewKit.GTCollectionViewAdaptable {
+  final public var registerItems: GTCollectionViewKit.GTCollectionViewCore.RegisterElements
+  final public var containerView: UIKit.UIView?
+  public init(withAdapter adapter: T, layoutStyle: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle, gridColumns: Swift.Int)
+  final public func register()
+  final public func add(toContainerView containerView: UIKit.UIView, usingPadding padding: UIKit.UIEdgeInsets = .zero)
+  final public func setScrollDirection(scrollVertically: Swift.Bool)
+  @objc final public func numberOfSections(in collectionView: UIKit.UICollectionView) -> Swift.Int
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, numberOfItemsInSection section: Swift.Int) -> Swift.Int
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, cellForItemAt indexPath: Foundation.IndexPath) -> UIKit.UICollectionViewCell
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, viewForSupplementaryElementOfKind kind: Swift.String, at indexPath: Foundation.IndexPath) -> UIKit.UICollectionReusableView
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, didSelectItemAt indexPath: Foundation.IndexPath)
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, sizeForItemAt indexPath: Foundation.IndexPath) -> CoreGraphics.CGSize
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Swift.Int) -> CoreGraphics.CGFloat
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, minimumLineSpacingForSectionAt section: Swift.Int) -> CoreGraphics.CGFloat
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, insetForSectionAt section: Swift.Int) -> UIKit.UIEdgeInsets
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, referenceSizeForHeaderInSection section: Swift.Int) -> CoreGraphics.CGSize
+  @objc final public func collectionView(_ collectionView: UIKit.UICollectionView, layout collectionViewLayout: UIKit.UICollectionViewLayout, referenceSizeForFooterInSection section: Swift.Int) -> CoreGraphics.CGSize
+  @objc override dynamic public init(frame: CoreGraphics.CGRect, collectionViewLayout layout: UIKit.UICollectionViewLayout)
+  @objc deinit
+}
+public protocol GTCollectionViewAdaptable {
+  associatedtype DataType
+  associatedtype SelfType : GTCollectionViewKit.GTCollectionViewAdaptable = Self
+  func setDatasource(for collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> GTCollectionViewKit.GTCollectionViewDatasource<Self.DataType>
+  func register(items: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, for collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>)
+  func dequeueCellType<C>(at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> C.Type where C : UIKit.UICollectionViewCell
+  func dequeueSupplementaryViewType<V>(ofKind kind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> V.Type? where V : UIKit.UIView
+  func configure(cell: UIKit.UICollectionViewCell, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> UIKit.UICollectionViewCell
+  func configure(supplementaryView view: UIKit.UIView, ofKind kind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> UIKit.UIView
+  func setLayoutInfo(forItemAt indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> GTCollectionViewKit.GTCollectionViewCore.LayoutInfo
+  func setHeaderAndFooterSize(at section: Swift.Int, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>) -> (headerSize: CoreGraphics.CGSize, footerSize: CoreGraphics.CGSize)
+  func didSelect(cell: UIKit.UICollectionViewCell, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<Self.SelfType>)
+}
+public class GTCollectionViewContainer<T> : UIKit.UIView {
+  public var collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>? {
+    get
+    }
+  @objc deinit
+  public func reload()
+  public func getData(at indexPath: Foundation.IndexPath) -> T?
+  public func configureCell(_ configureHandler: @escaping (UIKit.UICollectionViewCell, T, Foundation.IndexPath) -> UIKit.UICollectionViewCell) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func tapAction(_ handler: @escaping (Foundation.IndexPath) -> Swift.Void) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func dequeueCell(_ dequeueHandler: @escaping (Foundation.IndexPath) -> UIKit.UICollectionViewCell.Type) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func dequeueHeaderView(_ dequeueHandler: @escaping (Swift.Int) -> UIKit.UIView.Type) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func configureHeaderView(_ handler: @escaping (UIKit.UIView, Swift.Int) -> UIKit.UIView) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func setHeaderHeight(_ heightHandler: @escaping (Swift.Int) -> CoreGraphics.CGFloat) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func dequeueFooterView(_ dequeueHandler: @escaping (Swift.Int) -> UIKit.UIView.Type) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func configureFooterView(_ handler: @escaping (UIKit.UIView, Swift.Int) -> UIKit.UIView) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func setFooterHeight(_ footerHandler: @escaping (Swift.Int) -> CoreGraphics.CGFloat) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func add(to view: UIKit.UIView)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+}
+extension GTCollectionViewContainer : GTCollectionViewKit.GTCollectionViewAdaptable {
+  public typealias DataType = T
+  public func setDatasource(for collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> GTCollectionViewKit.GTCollectionViewDatasource<T>
+  public func register(items: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, for collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>)
+  public func dequeueCellType<C>(at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> C.Type where C : UIKit.UICollectionViewCell
+  public func dequeueSupplementaryViewType<V>(ofKind kind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> V.Type? where V : UIKit.UIView
+  public func configure(cell: UIKit.UICollectionViewCell, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> UIKit.UICollectionViewCell
+  public func configure(supplementaryView view: UIKit.UIView, ofKind kind: GTCollectionViewKit.GTCollectionViewCore.ElementKind, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> UIKit.UIView
+  public func setLayoutInfo(forItemAt indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> GTCollectionViewKit.GTCollectionViewCore.LayoutInfo
+  public func setHeaderAndFooterSize(at section: Swift.Int, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>) -> (headerSize: CoreGraphics.CGSize, footerSize: CoreGraphics.CGSize)
+  public func didSelect(cell: UIKit.UICollectionViewCell, at indexPath: Foundation.IndexPath, in collectionView: GTCollectionViewKit.GTCollectionView<GTCollectionViewKit.GTCollectionViewContainer<T>>)
+  public typealias SelfType = GTCollectionViewKit.GTCollectionViewContainer<T>
+}
+extension GTCollectionViewKit.GTCollectionViewCore.ElementKind : Swift.Equatable {}
+extension GTCollectionViewKit.GTCollectionViewCore.ElementKind : Swift.Hashable {}
+extension GTCollectionViewKit.GTCollectionViewCore.LayoutStyle : Swift.Equatable {}
+extension GTCollectionViewKit.GTCollectionViewCore.LayoutStyle : Swift.Hashable {}
