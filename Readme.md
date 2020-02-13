@@ -2,7 +2,7 @@
 
 ![Platform](https://img.shields.io/badge/Platform-iOS-lightgrey)
 ![Language](https://img.shields.io/badge/Language-Swift-orange)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue)
+![Version](https://img.shields.io/badge/Version-1.1.0-blue)
 
 #### Using collection views in iOS projects made easy!
 
@@ -48,7 +48,7 @@ GTCollectionViewKit public API offers a number of classes and protocols:
 
 ## The GTCollectionViewContainer container view
 
-There are three methods to initialize a `GTCollectionViewContainer` container view and specify the style of the embedded collection view:
+There are four methods to initialize a `GTCollectionViewContainer` container view and specify the style of the embedded collection view:
 
 ```swift
 createGrid(withColumns:datasource:registerElements:layoutInfo:)
@@ -60,15 +60,21 @@ createList(withDatasource:registerElements:layoutInfo:)
 createCollection(withLayoutRules:datasource:registerElements:layoutInfo:)
 // It creates a container view with a collection view that supports different
 // layout styles for various combinations of horizontal and vertical size classes.
+
+createCollection(withTotalSections:itemsPerSection:layoutStyle:columns:registerElements:layoutInfo:)
+// It creates a collection view with the specified number of sections and items.
+// Use this method to create a GTCollectionViewContainer view only when you want
+// to use the collection view cells as placeholders for other content and there is not
+// a datasource to display data.
 ```
 
-All of them accept the collection view's datasource as a parameter value, as well as objects that describe the elements to register (cells, headers, footers) and the layout style of the collection view. For details see the documentation of the `GTCollectionViewCore.RegisterElement` and `GTCollectionViewCore.LayoutInfo` classes.
+The first three of them accept the collection view's datasource as a parameter value, as well as objects that describe the elements to register (cells, headers, footers) and the layout style of the collection view. For details see the documentation of the `GTCollectionViewCore.RegisterElement` and `GTCollectionViewCore.LayoutInfo` classes.
 
-Last method above makes it possible to create a `GTCollectionViewContainer` view with a collection view that can have different styles depending on the specified size classes combination. For example, you can have list layout in compact vertical and regular horizontal size classes, and grid layout for regular vertical and any horizontal size classes.
+The third method above makes it possible to create a `GTCollectionViewContainer` view with a collection view that can have different styles depending on the specified size classes combination. For example, you can have list layout in compact vertical and regular horizontal size classes, and grid layout for regular vertical and any horizontal size classes.
 
 **Important #1**
 
-The returned type of all the above methods is `GTCollectionViewContainer<T>`, where T is the *type of the source data* that will be displayed on the collection view. When declaring container views as properties, then make sure to specify the datasource type as well. For example:
+The returned type of the first three methods above is `GTCollectionViewContainer<T>`, where T is the *type of the source data* that will be displayed on the collection view. When declaring container views as properties, then make sure to specify the datasource type as well. For example:
 
 ```swift
 // Collection view's datasource is of Int type.
@@ -79,6 +85,8 @@ var anotherContainer: GTCollectionViewContainer<MyType>?
 ```
 
 This requirement comes from the `GTCollectionView` definition (`GTCollectionView<T>`), which also requires the datasource type to be specified when initializing an object of it. Using generics that way makes it possible for GTCollectionViewKit to provide collection views that work with any type.
+
+The only exception is when using the `createCollection(withTotalSections:itemsPerSection:layoutStyle:columns:registerElements:layoutInfo:)` method to initialize a `GTCollectionViewContainer` view. In this case the returned type is `GTCollectionViewContainer<Any>` by default.
 
 **Important #2**
 
@@ -256,6 +264,11 @@ func demo_Using_Size_Classes() {
     cvContainerView?.add(to: self.view)
 }
 ```
+
+## Other
+
+* When reloading the collection view of a `GTCollectionViewContainer` view to display new data, use the `reload(withDatasource:)` method providing the updated datasource to be used with the collection view.
+* To get the full datasource provided in the collection view, use the `getDatasource()` of the `GTCollectionViewContainer` view instance. To get the data matching to a specific index path, use `getData(at:)`.
 
 ## Legal statement & Copyright notice
 

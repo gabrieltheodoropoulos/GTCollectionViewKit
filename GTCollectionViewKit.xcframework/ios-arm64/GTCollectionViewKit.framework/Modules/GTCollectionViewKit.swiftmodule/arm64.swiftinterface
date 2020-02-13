@@ -113,11 +113,13 @@ public protocol GTCollectionViewApplicable {
   func createGrid<T>(withColumns columns: Swift.Int, datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   func createList<T>(withDatasource datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   func createCollection<T>(withLayoutRules layoutRules: [GTCollectionViewKit.GTCollectionViewCore.LayoutRule], datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  func createCollection(withTotalSections sections: Swift.Int, itemsPerSection: [Swift.Int], layoutStyle: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle, columns: Swift.Int, registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<Any>
 }
 extension GTCollectionViewApplicable {
   public func createGrid<T>(withColumns columns: Swift.Int, datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   public func createList<T>(withDatasource datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   public func createCollection<T>(withLayoutRules layoutRules: [GTCollectionViewKit.GTCollectionViewCore.LayoutRule], datasource: [[T]], registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<T>
+  public func createCollection(withTotalSections sections: Swift.Int, itemsPerSection: [Swift.Int], layoutStyle: GTCollectionViewKit.GTCollectionViewCore.LayoutStyle, columns: Swift.Int, registerElements: GTCollectionViewKit.GTCollectionViewCore.RegisterElements, layoutInfo: GTCollectionViewKit.GTCollectionViewCore.LayoutInfo?) -> GTCollectionViewKit.GTCollectionViewContainer<Any>
 }
 public class GTCollectionViewSection<DataType> {
   public init()
@@ -129,6 +131,7 @@ public class GTCollectionViewDatasource<DataType> {
   public init(withSingleSectionItems items: [DataType])
   public init(withMultipleSectionItems multiItems: [[DataType]])
   public func item(at indexPath: Foundation.IndexPath) -> DataType?
+  public func getOriginalDatasource() -> [[DataType]]
   @objc deinit
 }
 final public class GTCollectionView<T> : UIKit.UICollectionView, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDelegateFlowLayout where T : GTCollectionViewKit.GTCollectionViewAdaptable {
@@ -171,7 +174,9 @@ public class GTCollectionViewContainer<T> : UIKit.UIView {
     }
   @objc deinit
   public func reload()
+  public func reload(withDatasource datasource: [[T]])
   public func getData(at indexPath: Foundation.IndexPath) -> T?
+  public func getDatasource() -> [[T]]
   public func configureCell(_ configureHandler: @escaping (UIKit.UICollectionViewCell, T, Foundation.IndexPath) -> UIKit.UICollectionViewCell) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   public func tapAction(_ handler: @escaping (Foundation.IndexPath) -> Swift.Void) -> GTCollectionViewKit.GTCollectionViewContainer<T>
   public func dequeueCell(_ dequeueHandler: @escaping (Foundation.IndexPath) -> UIKit.UICollectionViewCell.Type) -> GTCollectionViewKit.GTCollectionViewContainer<T>
